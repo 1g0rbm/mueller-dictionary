@@ -1,5 +1,13 @@
+init: docker-down docker-up composer-install
+
+docker-up:
+	docker-compose --env-file .env.local up -d
+
+docker-down:
+	docker-compose down --remove-orphans
+
 docker-pull:
-	docker-compose pull
+	docker-compose --env-file .env.local pull
 
 docker-build:
 	docker-compose --env-file .env.local build
@@ -23,3 +31,6 @@ console:
 
 composer:
 	docker-compose run --rm php-cli composer $(ARG)
+
+composer-install:
+	docker-compose run --rm php-cli composer install

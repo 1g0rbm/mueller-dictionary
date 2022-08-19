@@ -1,18 +1,36 @@
 version: "3.2"
 
 services:
-    php-cli:
+    nginx:
         build:
             context: ./docker/dev
-            dockerfile: php-cli.dockerfile
+            dockerfile: nginx.dockerfile
+        volumes:
+            - ./:/app
+        depends_on:
+            - php-fpm
+        ports:
+            - "8080:80"
+    php-cli:
+        build:
+            context: ./docker
+            dockerfile: ./dev/php-cli.dockerfile
             args:
-                USER_ID: ${USER_ID:-0}
-                GROUP_ID: ${GROUP_ID:-0}
+                USER_ID: $USER_ID
+                GROUP_ID: $GROUP_ID
         environment:
             APP_DEBUG: 1
         volumes:
             - ./:/app
             - ${HOME}/.composer:/.composer
+    php-fpm:
+        build:
+            context: ./docker
+            dockerfile: ./dev/php-fpm.dockerfile
+        environment:
+            APP_DEBUG: 1
+        volumes:
+            - ./:/app
 
 volumes:
     composer:
