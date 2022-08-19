@@ -9,7 +9,7 @@
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
-/phpunit.xml
+/phpunit.xml.dist
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
