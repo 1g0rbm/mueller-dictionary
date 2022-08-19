@@ -9,7 +9,6 @@
 >
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-        <pluginClass class="Lctrs\PsalmPsrContainerPlugin\Plugin"/>
     </plugins>
 
     <projectFiles>
@@ -20,6 +19,10 @@
         <directory name="tests" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="var" />
+            <file name="config/preload.php" />
+            <file name="public/index.php" />
+            <file name="tests/bootstrap.php" />
         </ignoreFiles>
     </projectFiles>
 
