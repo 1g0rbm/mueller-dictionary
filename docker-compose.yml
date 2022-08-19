@@ -1,0 +1,18 @@
+version: "3.2"
+
+services:
+    php-cli:
+        build:
+            context: ./docker/dev
+            dockerfile: php-cli.dockerfile
+            args:
+                USER_ID: ${USER_ID:-0}
+                GROUP_ID: ${GROUP_ID:-0}
+        environment:
+            APP_DEBUG: 1
+        volumes:
+            - ./:/app
+            - ${HOME}/.composer:/.composer
+
+volumes:
+    composer:
