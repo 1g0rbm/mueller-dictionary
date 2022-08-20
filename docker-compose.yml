@@ -15,9 +15,6 @@ services:
         build:
             context: ./docker
             dockerfile: ./dev/php-cli.dockerfile
-            args:
-                USER_ID: '${USER_ID}'
-                GROUP_ID: '${GROUP_ID}'
         environment:
             APP_DEBUG: 1
         volumes:
