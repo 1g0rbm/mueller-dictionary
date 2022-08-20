@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\DictionaryParser;
 
 use function fgets;
 use function implode;

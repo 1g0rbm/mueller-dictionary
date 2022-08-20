@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\DictionaryParser;
 
 use function mb_substr;
 use function preg_match;

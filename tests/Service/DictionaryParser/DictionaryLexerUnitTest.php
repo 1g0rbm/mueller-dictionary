@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\DictionaryParser;
 
-use App\Service\DictionaryLexer;
+use App\Service\DictionaryParser\DictionaryLexer;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\DictionaryParser;
 
-use App\Service\WordsReader;
+use App\Service\DictionaryParser\WordsReader;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use function fopen;
