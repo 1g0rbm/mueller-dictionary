@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use function mb_substr;
+use function preg_match;
 use function trim;
 
 final class DictionaryLexer

@@ -23,7 +23,7 @@ final class WordsReaderUnitTest extends KernelTestCase
 
     public function testReadLinesByCount(): void
     {
-        $fp    = fopen(__DIR__ . '/fixtures/five_words', 'rb');
+        $fp    = fopen(__DIR__ . '/fixtures/words', 'rb');
         $words = $this->service->read($fp, 2);
 
         self::assertCount(2, $words);
@@ -32,7 +32,7 @@ final class WordsReaderUnitTest extends KernelTestCase
 
     public function testReadLinesToEnd(): void
     {
-        $fp    = fopen(__DIR__ . '/fixtures/five_words', 'rb');
+        $fp    = fopen(__DIR__ . '/fixtures/words', 'rb');
         $words = $this->service->read($fp);
 
         self::assertCount(5, $words);
@@ -41,7 +41,7 @@ final class WordsReaderUnitTest extends KernelTestCase
 
     public function testReadLinesPartials(): void
     {
-        $fp    = fopen(__DIR__ . '/fixtures/five_words', 'rb');
+        $fp    = fopen(__DIR__ . '/fixtures/words', 'rb');
         $words = $this->service->read($fp, 1);
 
         self::assertCount(1, $words);
