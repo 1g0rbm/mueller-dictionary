@@ -8,9 +8,11 @@ use JetBrains\PhpStorm\Pure;
 
 use function sprintf;
 
-class UndefinedTextDictionaryTypeException extends DictionaryParserException
+final class UndefinedTextDictionaryTypeException extends DictionaryParserException
 {
-    #[Pure] public static function inText(string $text): self
+    /** @psalm-suppress UndefinedAttributeClass */
+    #[Pure]
+    public static function inText(string $text): self
     {
         return new self(sprintf('%s', $text));
     }

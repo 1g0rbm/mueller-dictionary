@@ -6,7 +6,7 @@ namespace App\Exception\DictionaryParser;
 
 use Exception;
 
-class DictionaryParserException extends Exception
+abstract class DictionaryParserException extends Exception
 {
     protected string $moduleName = 'dictionary parser';
 }
