@@ -23,6 +23,16 @@ final class TextTypeDefinerUnitTest extends TestCase
     /**
      * @throws UndefinedTextDictionaryTypeException
      */
+    public function testDefineReturnArabian(): void
+    {
+        $source = "[,pIэrI'OdIkэl] 1. _a. периодический; появляющийся через определённые промежутки времени; выпускаемый через определённые промежутки времени 2. _n. периодическое издание, журнал";
+
+        self::assertEquals('arabian', $this->service->define($source));
+    }
+
+    /**
+     * @throws UndefinedTextDictionaryTypeException
+     */
     public function testDefineReturnSimple(): void
     {
         $source = "['bi:haIv] _n. улей";

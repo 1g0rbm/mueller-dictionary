@@ -17,11 +17,28 @@ final class TextTypeDefiner
             return 'romanian';
         }
 
+        if ($this->isArabian($text)) {
+            return 'arabian';
+        }
+
         if ($this->isSimple($text)) {
             return 'simple';
         }
 
         throw UndefinedTextDictionaryTypeException::inText($text);
+    }
+
+    private function isArabian(string $text): bool
+    {
+        $regex = '/^\[.+] 1. _\w+\. /';
+
+        preg_match($regex, $text, $matches);
+
+        if (\count($matches) === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     private function isSimple(string $text): bool
