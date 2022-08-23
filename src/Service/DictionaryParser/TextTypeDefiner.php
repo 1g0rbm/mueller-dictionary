@@ -30,40 +30,23 @@ final class TextTypeDefiner
 
     private function isArabian(string $text): bool
     {
-        $regex = '/^\[.+] 1. _\w+\. /';
-
-        preg_match($regex, $text, $matches);
-
-        if (\count($matches) === 0) {
-            return false;
-        }
-
-        return true;
+        return $this->isMatch('/^\[.+] 1. _\w+\. /', $text);
     }
 
     private function isSimple(string $text): bool
     {
-        $regex = '/^\[.+] _\w+\. /';
-
-        preg_match($regex, $text, $matches);
-
-        if (\count($matches) === 0) {
-            return false;
-        }
-
-        return true;
+        return $this->isMatch('/^\[.+] _\w+\. /', $text);
     }
 
     private function isRomanian(string $text): bool
     {
-        $regex = '/^I \[.+] _\w+\. /';
+        return $this->isMatch('/^I \[.+] _\w+\. /', $text);
+    }
 
+    private function isMatch(string $regex, string $text): bool
+    {
         preg_match($regex, $text, $matches);
 
-        if (\count($matches) === 0) {
-            return false;
-        }
-
-        return true;
+        return !(\count($matches) === 0);
     }
 }
