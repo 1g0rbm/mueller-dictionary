@@ -20,4 +20,10 @@ final class ParsingPartNotFoundException extends DictionaryParserException
     {
         return new self(sprintf('Position not found in string "%s"', $text));
     }
+
+    #[Pure]
+    public static function sourceWord(string $text): self
+    {
+        return new self(sprintf('Source word not found in string "%s"', $text));
+    }
 }

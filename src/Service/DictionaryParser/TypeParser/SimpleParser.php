@@ -8,6 +8,7 @@ use App\Entity\DictionaryParser\DictionaryElement;
 use App\Exception\DictionaryParser\ParsingPartNotFoundException;
 use App\Exception\Entity\DictionaryParser\DictionaryElementInvalidTypeException;
 use App\Service\DictionaryParser\PositionFinder;
+use App\Service\DictionaryParser\TextReducerTrait;
 use App\Service\DictionaryParser\TranscriptionFinder;
 
 use function array_map;
@@ -16,6 +17,8 @@ use function trim;
 
 final class SimpleParser implements TextTypeParserInterface
 {
+    use TextReducerTrait;
+
     private TranscriptionFinder $transcriptionFinder;
 
     private PositionFinder $positionFinder;
@@ -39,7 +42,7 @@ final class SimpleParser implements TextTypeParserInterface
             throw ParsingPartNotFoundException::transcription($text);
         }
 
-        $text = $this->reduce($transcription, $text);
+        $text = $this->textReduce($transcription, $text);
 
         $position = $this->positionFinder->find($text);
         if ($position === null) {
@@ -48,7 +51,7 @@ final class SimpleParser implements TextTypeParserInterface
 
         $translations = array_map(
             static fn (string $translation): string => trim($translation),
-            explode(',', $this->reduce($position, $text))
+            explode(',', $this->textReduce($position, $text))
         );
 
         return [
@@ -56,10 +59,5 @@ final class SimpleParser implements TextTypeParserInterface
             new DictionaryElement(DictionaryElement::POSITION_TYPE, $position),
             new DictionaryElement(DictionaryElement::TRANSLATION_TYPE, $translations),
         ];
-    }
-
-    private function reduce(string $part, string $string): string
-    {
-        return trim(str_replace($part, '', $string));
     }
 }

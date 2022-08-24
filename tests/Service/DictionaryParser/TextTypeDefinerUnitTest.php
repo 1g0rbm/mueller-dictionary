@@ -6,10 +6,12 @@ namespace App\Tests\Service\DictionaryParser;
 
 use App\Exception\DictionaryParser\UndefinedTextDictionaryTypeException;
 use App\Service\DictionaryParser\TextTypeDefiner;
+use App\Service\DictionaryParser\TypeParser\SimpleParser;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
+ * @psalm-suppress MissingConstructor
  */
 final class TextTypeDefinerUnitTest extends TestCase
 {
@@ -37,7 +39,7 @@ final class TextTypeDefinerUnitTest extends TestCase
     {
         $source = "['bi:haIv] _n. улей";
 
-        self::assertEquals('simple', $this->service->define($source));
+        self::assertEquals(SimpleParser::class, $this->service->define($source));
     }
 
     /**

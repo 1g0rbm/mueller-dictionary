@@ -11,6 +11,7 @@ use function fopen;
 
 /**
  * @internal
+ * @psalm-suppress MissingConstructor
  */
 final class WordsReaderUnitTest extends KernelTestCase
 {

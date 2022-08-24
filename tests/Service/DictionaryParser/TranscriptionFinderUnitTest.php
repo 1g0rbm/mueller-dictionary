@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @internal
+ * @psalm-suppress MissingConstructor
  */
 final class TranscriptionFinderUnitTest extends KernelTestCase
 {

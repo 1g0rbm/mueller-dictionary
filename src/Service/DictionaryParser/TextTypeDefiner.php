@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\DictionaryParser;
 
 use App\Exception\DictionaryParser\UndefinedTextDictionaryTypeException;
+use App\Service\DictionaryParser\TypeParser\SimpleParser;
 
 final class TextTypeDefiner
 {
@@ -22,7 +23,7 @@ final class TextTypeDefiner
         }
 
         if ($this->isSimple($text)) {
-            return 'simple';
+            return SimpleParser::class;
         }
 
         throw UndefinedTextDictionaryTypeException::inText($text);
