@@ -28,6 +28,7 @@ final class WordsReader
 
             if ($line === '_____') {
                 $words = self::saveWord($words, $word);
+                $word = [];
                 continue;
             }
 
