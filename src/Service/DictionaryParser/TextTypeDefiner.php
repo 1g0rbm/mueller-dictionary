@@ -31,17 +31,17 @@ final class TextTypeDefiner
 
     private function isArabian(string $text): bool
     {
-        return $this->isMatch('/^\[.+] 1. _\w+\. /', $text);
+        return $this->isMatch('/\[.+] 1. _\w+\. /', $text);
     }
 
     private function isSimple(string $text): bool
     {
-        return $this->isMatch('/^\[.+] _\w+\. /', $text);
+        return $this->isMatch('/\[.+] _\w+\. /', $text);
     }
 
     private function isRomanian(string $text): bool
     {
-        return $this->isMatch('/^I \[.+] _\w+\. /', $text);
+        return $this->isMatch('/I \[.+] _\w+\. /', $text);
     }
 
     private function isMatch(string $regex, string $text): bool

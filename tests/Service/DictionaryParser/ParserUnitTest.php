@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\DictionaryParser;
 
-use App\Entity\DictionaryParser\DictionaryElement;
-use App\Exception\DictionaryParser\ParsingPartNotFoundException;
+use App\Entity\DictionaryParser\DictionaryWord;
 use App\Exception\DictionaryParser\TextTypeParserDuplicateException;
 use App\Exception\DictionaryParser\TextTypeParserNotFoundException;
 use App\Exception\DictionaryParser\UndefinedTextDictionaryTypeException;
-use App\Exception\Entity\DictionaryParser\DictionaryElementInvalidTypeException;
 use App\Service\DictionaryParser\Parser;
 use App\Service\DictionaryParser\PositionFinder;
 use App\Service\DictionaryParser\SourceWordFinder;
@@ -37,18 +35,16 @@ final class ParserUnitTest extends KernelTestCase
 
         $positionFinder      = new PositionFinder();
         $transcriptionFinder = new TranscriptionFinder();
-        $simpleParser        = new SimpleParser($transcriptionFinder, $positionFinder);
+        $simpleParser        = new SimpleParser($sourceWordFinder, $transcriptionFinder, $positionFinder);
 
         $textTypeRegistry->addParser($simpleParser);
 
         $textTypeDefiner = new TextTypeDefiner();
 
-        $this->service = new Parser($sourceWordFinder, $textTypeRegistry, $textTypeDefiner);
+        $this->service = new Parser($textTypeRegistry, $textTypeDefiner);
     }
 
     /**
-     * @throws ParsingPartNotFoundException
-     * @throws DictionaryElementInvalidTypeException
      * @throws TextTypeParserNotFoundException
      * @throws UndefinedTextDictionaryTypeException
      */
@@ -56,12 +52,7 @@ final class ParserUnitTest extends KernelTestCase
     {
         $text = "beehive ['bi:haIv] _n. улей";
 
-        $expected = [
-            new DictionaryElement(DictionaryElement::SOURCE_TYPE, 'beehive'),
-            new DictionaryElement(DictionaryElement::TRANSCRIPTION_TYPE, "['bi:haIv]"),
-            new DictionaryElement(DictionaryElement::POSITION_TYPE, '_n.'),
-            new DictionaryElement(DictionaryElement::TRANSLATION_TYPE, ['улей']),
-        ];
+        $expected = [new DictionaryWord('beehive', "['bi:haIv]", '_n.', ['улей'])];
 
         $res = $this->service->parse($text);
 

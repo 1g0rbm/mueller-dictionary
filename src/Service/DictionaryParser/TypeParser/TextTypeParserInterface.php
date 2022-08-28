@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\DictionaryParser\TypeParser;
 
-use App\Entity\DictionaryParser\DictionaryElement;
+use App\Entity\DictionaryParser\DictionaryWord;
 
 interface TextTypeParserInterface
 {
     /**
-     * @return DictionaryElement[]
+     * @return DictionaryWord[]
      */
     public function parse(string $text): array;
 }
