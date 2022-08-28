@@ -36,7 +36,7 @@ final class WordsReaderUnitTest extends KernelTestCase
         $fp    = fopen(__DIR__ . '/fixtures/words', 'rb');
         $words = $this->service->read($fp);
 
-        self::assertCount(6, $words);
+        self::assertCount(7, $words);
         self::assertEquals("beehive ['bi:haIv] _n. улей", $words[0]);
     }
 

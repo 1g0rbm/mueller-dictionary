@@ -10,6 +10,9 @@ use function preg_split;
 
 final class RomanNumsTranslationSplitter
 {
+    /**
+     * @return string[]
+     */
     public function split(string $string): array
     {
         // :|
