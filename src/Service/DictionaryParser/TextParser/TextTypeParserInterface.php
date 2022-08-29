@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\DictionaryParser\TypeParser;
+namespace App\Service\DictionaryParser\TextParser;
 
 use App\Entity\DictionaryParser\DictionaryWord;
 

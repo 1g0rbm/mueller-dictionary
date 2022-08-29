@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\DictionaryParser\TypeParser;
+namespace App\Service\DictionaryParser\TextParser;
 
 use App\Entity\DictionaryParser\DictionaryWord;
 use App\Exception\DictionaryParser\ParsingPartNotFoundException;
@@ -14,7 +14,7 @@ use App\Service\DictionaryParser\TextReducerTrait;
 use App\Service\DictionaryParser\TranscriptionFinder;
 use App\Service\DictionaryParser\TranslationParser\TranslationParser;
 
-final class RomanianParser implements TextTypeParserInterface
+final class TextTypeParser implements TextTypeParserInterface
 {
     use TextReducerTrait;
 

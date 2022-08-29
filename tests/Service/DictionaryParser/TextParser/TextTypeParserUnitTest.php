@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service\DictionaryParser\TypeParser;
+namespace App\Tests\Service\DictionaryParser\TextParser;
 
 use App\Entity\DictionaryParser\DictionaryWord;
 use App\Exception\DictionaryParser\ParsingPartNotFoundException;
@@ -10,9 +10,9 @@ use App\Service\DictionaryParser\ArabicDotNumsSplitter;
 use App\Service\DictionaryParser\PositionFinder;
 use App\Service\DictionaryParser\RomanNumsTranslationSplitter;
 use App\Service\DictionaryParser\SourceWordFinder;
+use App\Service\DictionaryParser\TextParser\TextTypeParser;
 use App\Service\DictionaryParser\TranscriptionFinder;
 use App\Service\DictionaryParser\TranslationParser\TranslationParser;
-use App\Service\DictionaryParser\TypeParser\RomanianParser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 final class TextTypeParserUnitTest extends KernelTestCase
 {
-    private RomanianParser $service;
+    private TextTypeParser $service;
 
     protected function setUp(): void
     {
@@ -33,7 +33,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
         $romanNumsSplitter     = new RomanNumsTranslationSplitter();
         $arabicDotNumsSplitter = new ArabicDotNumsSplitter();
 
-        $this->service = new RomanianParser(
+        $this->service = new TextTypeParser(
             $sourceFinder,
             $transcriptionFinder,
             $positionFinder,
@@ -78,5 +78,52 @@ final class TextTypeParserUnitTest extends KernelTestCase
         ];
 
         self::assertEquals($expected, $this->service->parse($sourceString));
+    }
+
+    /**
+     * @throws ParsingPartNotFoundException
+     */
+    public function testArabicStringReturnValid(): void
+    {
+        $sourceString = "periodical [,pIэrI'OdIkэl] 1. _a. периодический; появляющийся через определённые промежутки времени; выпускаемый через определённые промежутки времени 2. _n. периодическое издание, журнал";
+
+        $expectedWords = [
+            new DictionaryWord(
+                'periodical',
+                "[,pIэrI'OdIkэl]",
+                '_a.',
+                [
+                    'периодический',
+                    'появляющийся через определённые промежутки времени',
+                    'выпускаемый через определённые промежутки времени',
+                ]
+            ),
+            new DictionaryWord(
+                'periodical',
+                "[,pIэrI'OdIkэl]",
+                '_n.',
+                [
+                    'периодическое издание',
+                    'журнал',
+                ]
+            ),
+        ];
+
+        self::assertEquals(
+            $expectedWords,
+            $this->service->parse($sourceString)
+        );
+    }
+
+    /**
+     * @throws ParsingPartNotFoundException
+     */
+    public function testSimpleStringReturnValid(): void
+    {
+        $sourceText = "beehive ['bi:haIv] _n. улей";
+
+        $expectedWord = [new DictionaryWord('beehive', "['bi:haIv]", '_n.', ['улей'])];
+
+        self::assertEquals($expectedWord, $this->service->parse($sourceText));
     }
 }
