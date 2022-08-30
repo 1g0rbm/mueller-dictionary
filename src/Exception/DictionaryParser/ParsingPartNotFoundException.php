@@ -16,9 +16,9 @@ final class ParsingPartNotFoundException extends DictionaryParserException
     }
 
     #[Pure]
-    public static function position(string $text): self
+    public static function pos(string $text): self
     {
-        return new self(sprintf('Position not found in string "%s"', $text));
+        return new self(sprintf('Part of speech not found in string "%s"', $text));
     }
 
     #[Pure]

@@ -22,7 +22,7 @@ final class TextTypeParser implements TextTypeParserInterface
 
     private TranscriptionFinder $transcriptionFinder;
 
-    private PartOfSpeechFinder $positionFinder;
+    private PartOfSpeechFinder $partOfSpeechFinder;
 
     private TranslationParser $translationParser;
 
@@ -40,7 +40,7 @@ final class TextTypeParser implements TextTypeParserInterface
     ) {
         $this->sourceWordFinder     = $sourceWordFinder;
         $this->transcriptionFinder  = $transcriptionFinder;
-        $this->positionFinder       = $positionFinder;
+        $this->partOfSpeechFinder   = $positionFinder;
         $this->translationParser    = $translationParser;
         $this->meaningSplitter      = $meaningSplitter;
         $this->partOfSpeechSplitter = $partOfSpeechSplitter;
@@ -71,9 +71,9 @@ final class TextTypeParser implements TextTypeParserInterface
 
             $partsOfSpeech = $this->partOfSpeechSplitter->split($meaning);
             foreach ($partsOfSpeech as $partOfSpeech) {
-                $pos = $this->positionFinder->find($partOfSpeech);
+                $pos = $this->partOfSpeechFinder->find($partOfSpeech);
                 if ($pos === null) {
-                    throw ParsingPartNotFoundException::position($partOfSpeech);
+                    throw ParsingPartNotFoundException::pos($partOfSpeech);
                 }
 
                 $translations = $this->translationParser->parse($this->textReduce($pos, $partOfSpeech));
