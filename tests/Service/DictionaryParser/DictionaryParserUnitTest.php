@@ -6,7 +6,6 @@ namespace App\Tests\Service\DictionaryParser;
 
 use App\Entity\DictionaryParser\DictionaryWord;
 use App\Exception\DictionaryParser\DictionaryFileNotFoundException;
-use App\Exception\DictionaryParser\ParsingPartNotFoundException;
 use App\Service\DictionaryParser\DictionaryParser;
 use App\Service\DictionaryParser\MeaningSplitter;
 use App\Service\DictionaryParser\PartOfSpeechFinder;
@@ -16,14 +15,24 @@ use App\Service\DictionaryParser\TextParser\TextTypeParser;
 use App\Service\DictionaryParser\TranscriptionFinder;
 use App\Service\DictionaryParser\TranslationParser\TranslationParser;
 use App\Service\DictionaryParser\WordsReader;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
+ * @psalm-suppress MissingConstructor
+ * @psalm-suppress MixedMethodCall
+ * @psalm-suppress PossiblyUndefinedMethod
  * @internal
  */
 final class DictionaryParserUnitTest extends KernelTestCase
 {
     private DictionaryParser $service;
+
+    /**
+     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     */
+    private LoggerInterface|MockObject $loggerMock;
 
     protected function setUp(): void
     {
@@ -45,12 +54,13 @@ final class DictionaryParserUnitTest extends KernelTestCase
             $arabicDotNumsSplitter
         );
 
-        $this->service = new DictionaryParser($wordReader, $textParser);
+        $this->loggerMock = $this->createMock(LoggerInterface::class);
+
+        $this->service = new DictionaryParser($wordReader, $textParser, $this->loggerMock);
     }
 
     /**
      * @throws DictionaryFileNotFoundException
-     * @throws ParsingPartNotFoundException
      */
     public function testParseReturnValid(): void
     {
@@ -69,6 +79,14 @@ final class DictionaryParserUnitTest extends KernelTestCase
             ),
         ];
 
-        self::assertEquals($expected, $this->service->parse(__DIR__ . '/fixtures/words', 2));
+        $this->loggerMock
+            ->expects(self::once())
+            ->method('alert')
+            ->with(
+                'Word did not parsed
+[dictionary parser] Part of speech not found in string "(полная форма); [bIn] (редуцированная форма) _p-p. от be"'
+            );
+
+        self::assertEquals($expected, $this->service->parse(__DIR__ . '/fixtures/words', 3));
     }
 }

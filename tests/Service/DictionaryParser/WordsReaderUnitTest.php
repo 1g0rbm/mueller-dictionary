@@ -36,7 +36,7 @@ final class WordsReaderUnitTest extends KernelTestCase
         $fp    = fopen(__DIR__ . '/fixtures/words', 'rb');
         $words = $this->service->read($fp);
 
-        self::assertCount(6, $words);
+        self::assertCount(7, $words);
         self::assertEquals("beehive ['bi:haIv] _n. улей", $words[0]);
     }
 
@@ -52,7 +52,7 @@ final class WordsReaderUnitTest extends KernelTestCase
 
         self::assertCount(1, $words);
         self::assertEquals(
-            "periodicity [,pIэrIэ'dIsItI] _n. 1) периодичность, частота 2) _физиол. менструации",
+            'been [bi:n] (полная форма); [bIn] (редуцированная форма) _p-p. от be',
             $words[0]
         );
     }
