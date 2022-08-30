@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\DictionaryParser;
 
-use function str_replace;
 use function trim;
 
 trait TextReducerTrait
 {
-    private function textReduce(string $text, string $reducer): string
+    private function textReduce(string $reducer, string $text): string
     {
-        return trim(str_replace($text, '', $reducer));
+        return trim(
+            preg_replace(sprintf('/%s/', preg_quote($reducer, '/')), '', $text, 1)
+        );
     }
 }
