@@ -8,7 +8,7 @@ use function array_filter;
 use function array_values;
 use function preg_split;
 
-final class RomanNumsTranslationSplitter
+final class MeaningSplitter
 {
     /**
      * @return string[]

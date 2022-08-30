@@ -6,7 +6,7 @@ namespace App\Service\DictionaryParser;
 
 use function preg_match;
 
-final class PositionFinder
+final class PartOfSpeechFinder
 {
     public function find(string $text): ?string
     {

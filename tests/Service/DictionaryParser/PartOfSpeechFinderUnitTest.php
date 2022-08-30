@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\DictionaryParser;
 
-use App\Service\DictionaryParser\PositionFinder;
+use App\Service\DictionaryParser\PartOfSpeechFinder;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -12,13 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  *
  * @internal
  */
-final class PositionFinderUnitTest extends KernelTestCase
+final class PartOfSpeechFinderUnitTest extends KernelTestCase
 {
-    private PositionFinder $service;
+    private PartOfSpeechFinder $service;
 
     protected function setUp(): void
     {
-        $this->service = new PositionFinder();
+        $this->service = new PartOfSpeechFinder();
     }
 
     public function testFindReturnPosition(): void

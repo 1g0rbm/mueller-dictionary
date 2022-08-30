@@ -9,7 +9,7 @@ use function array_map;
 use function preg_split;
 use function trim;
 
-final class ArabicDotNumsSplitter
+final class PartOfSpeechSplitter
 {
     /**
      * @return string[]

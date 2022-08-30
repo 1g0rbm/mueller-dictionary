@@ -6,9 +6,9 @@ namespace App\Service\DictionaryParser\TextParser;
 
 use App\Entity\DictionaryParser\DictionaryWord;
 use App\Exception\DictionaryParser\ParsingPartNotFoundException;
-use App\Service\DictionaryParser\ArabicDotNumsSplitter;
-use App\Service\DictionaryParser\PositionFinder;
-use App\Service\DictionaryParser\RomanNumsTranslationSplitter;
+use App\Service\DictionaryParser\MeaningSplitter;
+use App\Service\DictionaryParser\PartOfSpeechFinder;
+use App\Service\DictionaryParser\PartOfSpeechSplitter;
 use App\Service\DictionaryParser\SourceWordFinder;
 use App\Service\DictionaryParser\TextReducerTrait;
 use App\Service\DictionaryParser\TranscriptionFinder;
@@ -22,28 +22,28 @@ final class TextTypeParser implements TextTypeParserInterface
 
     private TranscriptionFinder $transcriptionFinder;
 
-    private PositionFinder $positionFinder;
+    private PartOfSpeechFinder $positionFinder;
 
     private TranslationParser $translationParser;
 
-    private RomanNumsTranslationSplitter $romanNumsSplitter;
+    private MeaningSplitter $meaningSplitter;
 
-    private ArabicDotNumsSplitter $arabicDotNumsSplitter;
+    private PartOfSpeechSplitter $partOfSpeechSplitter;
 
     public function __construct(
         SourceWordFinder $sourceWordFinder,
         TranscriptionFinder $transcriptionFinder,
-        PositionFinder $positionFinder,
+        PartOfSpeechFinder $positionFinder,
         TranslationParser $translationParser,
-        RomanNumsTranslationSplitter $romanNumsSplitter,
-        ArabicDotNumsSplitter $arabicDotNumsSplitter
+        MeaningSplitter $meaningSplitter,
+        PartOfSpeechSplitter $partOfSpeechSplitter
     ) {
-        $this->sourceWordFinder      = $sourceWordFinder;
-        $this->transcriptionFinder   = $transcriptionFinder;
-        $this->positionFinder        = $positionFinder;
-        $this->translationParser     = $translationParser;
-        $this->romanNumsSplitter     = $romanNumsSplitter;
-        $this->arabicDotNumsSplitter = $arabicDotNumsSplitter;
+        $this->sourceWordFinder     = $sourceWordFinder;
+        $this->transcriptionFinder  = $transcriptionFinder;
+        $this->positionFinder       = $positionFinder;
+        $this->translationParser    = $translationParser;
+        $this->meaningSplitter      = $meaningSplitter;
+        $this->partOfSpeechSplitter = $partOfSpeechSplitter;
     }
 
     /**
@@ -60,25 +60,25 @@ final class TextTypeParser implements TextTypeParserInterface
 
         $text = $this->textReduce($sourceWord, $text);
 
-        $romanianParts = $this->romanNumsSplitter->split($text);
-        foreach ($romanianParts as $romanianPart) {
-            $transcription = $this->transcriptionFinder->find($romanianPart);
+        $meanings = $this->meaningSplitter->split($text);
+        foreach ($meanings as $meaning) {
+            $transcription = $this->transcriptionFinder->find($meaning);
             if ($transcription === null) {
-                throw ParsingPartNotFoundException::transcription($romanianPart);
+                throw ParsingPartNotFoundException::transcription($meaning);
             }
 
-            $romanianPart = $this->textReduce($transcription, $romanianPart);
+            $meaning = $this->textReduce($transcription, $meaning);
 
-            $arabicDotParts = $this->arabicDotNumsSplitter->split($romanianPart);
-            foreach ($arabicDotParts as $arabicDotPart) {
-                $position = $this->positionFinder->find($arabicDotPart);
-                if ($position === null) {
-                    throw ParsingPartNotFoundException::position($arabicDotPart);
+            $partsOfSpeech = $this->partOfSpeechSplitter->split($meaning);
+            foreach ($partsOfSpeech as $partOfSpeech) {
+                $pos = $this->positionFinder->find($partOfSpeech);
+                if ($pos === null) {
+                    throw ParsingPartNotFoundException::position($partOfSpeech);
                 }
 
-                $translations = $this->translationParser->parse($this->textReduce($position, $arabicDotPart));
+                $translations = $this->translationParser->parse($this->textReduce($pos, $partOfSpeech));
 
-                $result[] = new DictionaryWord($sourceWord, $transcription, $position, $translations);
+                $result[] = new DictionaryWord($sourceWord, $transcription, $pos, $translations);
             }
         }
 

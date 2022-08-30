@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\DictionaryParser;
 
-use App\Service\DictionaryParser\RomanNumsTranslationSplitter;
+use App\Service\DictionaryParser\MeaningSplitter;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-final class RomanNumsTranslationSplitterTest extends TestCase
+final class MeaningSplitterUnitTest extends TestCase
 {
-    private RomanNumsTranslationSplitter $service;
+    private MeaningSplitter $service;
 
     protected function setUp(): void
     {
-        $this->service = new RomanNumsTranslationSplitter();
+        $this->service = new MeaningSplitter();
     }
 
     public function testSplitReturnSuccess(): void

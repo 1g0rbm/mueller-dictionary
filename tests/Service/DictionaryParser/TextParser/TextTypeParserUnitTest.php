@@ -6,9 +6,9 @@ namespace App\Tests\Service\DictionaryParser\TextParser;
 
 use App\Entity\DictionaryParser\DictionaryWord;
 use App\Exception\DictionaryParser\ParsingPartNotFoundException;
-use App\Service\DictionaryParser\ArabicDotNumsSplitter;
-use App\Service\DictionaryParser\PositionFinder;
-use App\Service\DictionaryParser\RomanNumsTranslationSplitter;
+use App\Service\DictionaryParser\MeaningSplitter;
+use App\Service\DictionaryParser\PartOfSpeechFinder;
+use App\Service\DictionaryParser\PartOfSpeechSplitter;
 use App\Service\DictionaryParser\SourceWordFinder;
 use App\Service\DictionaryParser\TextParser\TextTypeParser;
 use App\Service\DictionaryParser\TranscriptionFinder;
@@ -27,11 +27,11 @@ final class TextTypeParserUnitTest extends KernelTestCase
     protected function setUp(): void
     {
         $sourceFinder          = new SourceWordFinder();
-        $positionFinder        = new PositionFinder();
+        $positionFinder        = new PartOfSpeechFinder();
         $transcriptionFinder   = new TranscriptionFinder();
         $translationParser     = new TranslationParser();
-        $romanNumsSplitter     = new RomanNumsTranslationSplitter();
-        $arabicDotNumsSplitter = new ArabicDotNumsSplitter();
+        $romanNumsSplitter     = new MeaningSplitter();
+        $arabicDotNumsSplitter = new PartOfSpeechSplitter();
 
         $this->service = new TextTypeParser(
             $sourceFinder,
@@ -46,7 +46,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
     /**
      * @throws ParsingPartNotFoundException
      */
-    public function testRomanianStringReturnValid(): void
+    public function testMeaningsReturnValid(): void
     {
         $sourceString = "annex I ['Эneks] _n. 1) прибавление, приложение, дополнение 2) пристройка, крыло, флигель II [э'neks] _v. 1) присоединять; аннексировать 2) прилагать; делать приложение (к книге и т.п.)";
 
@@ -83,7 +83,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
     /**
      * @throws ParsingPartNotFoundException
      */
-    public function testArabicStringReturnValid(): void
+    public function testPartsOfSpeechReturnValid(): void
     {
         $sourceString = "periodical [,pIэrI'OdIkэl] 1. _a. периодический; появляющийся через определённые промежутки времени; выпускаемый через определённые промежутки времени 2. _n. периодическое издание, журнал";
 
