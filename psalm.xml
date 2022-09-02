@@ -9,24 +9,24 @@
 >
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-    </plugins>
+    <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/></plugins>
 
     <projectFiles>
-        <directory name="bin" />
-        <directory name="config" />
-        <directory name="public" />
-        <directory name="src" />
-        <directory name="tests" />
+        <directory name="bin"/>
+        <directory name="config"/>
+        <directory name="public"/>
+        <directory name="src"/>
+        <directory name="tests"/>
         <ignoreFiles>
-            <directory name="vendor" />
-            <directory name="var" />
-            <file name="config/preload.php" />
-            <file name="public/index.php" />
-            <file name="tests/bootstrap.php" />
+            <directory name="vendor"/>
+            <directory name="var"/>
+            <file name="config/preload.php"/>
+            <file name="public/index.php"/>
+            <file name="tests/bootstrap.php"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="info" />
+        <LessSpecificReturnType errorLevel="info"/>
     </issueHandlers>
 </psalm>

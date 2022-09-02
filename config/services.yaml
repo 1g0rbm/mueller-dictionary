@@ -12,7 +12,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Service\DictionaryParser\TypeParser:
-        exclude: '../src/Service/DictionaryParser/TypeParser/{TextTypeParserInterface}.php'
-        resource: '../src/Service/DictionaryParser/TypeParser'
+    App\Service\DictionaryParser\TextParser\:
+        exclude: '../src/Service/DictionaryParser/TextParser/{TextTypeParserInterface}.php'
+        resource: '../src/Service/DictionaryParser/TextParser'
         tags: [ 'text_type.parser' ]

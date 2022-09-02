@@ -34,3 +34,6 @@ composer:
 
 composer-install:
 	docker-compose run --rm php-cli composer install
+
+php-cli:
+	docker-compose run --rm php-cli $(ARG)

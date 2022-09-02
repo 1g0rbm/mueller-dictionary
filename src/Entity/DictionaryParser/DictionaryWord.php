@@ -12,8 +12,14 @@ final class DictionaryWord
 
     private string $transcription;
 
+    /**
+     * @var string[]
+     */
     private array $translation;
 
+    /**
+     * @param string[] $translation
+     */
     public function __construct(string $source, string $position, string $transcription, array $translation)
     {
         $this->source        = $source;
@@ -37,6 +43,9 @@ final class DictionaryWord
         return $this->transcription;
     }
 
+    /**
+     * @return string[]
+     */
     public function getTranslation(): array
     {
         return $this->translation;

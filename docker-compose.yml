@@ -28,6 +28,18 @@ services:
             APP_DEBUG: 1
         volumes:
             - ./:/app
+    postgres:
+        image: postgres:13.3-alpine
+        environment:
+            POSTGRES_USER: muellerdict
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: muellerdict
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        ports:
+            - "54321:5432"
 
 volumes:
     composer:
+    postgres:
+

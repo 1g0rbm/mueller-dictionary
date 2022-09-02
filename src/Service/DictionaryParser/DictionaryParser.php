@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\DictionaryParser;
 
-use App\Entity\DictionaryParser\DictionaryWord;
+use App\Entity\Word;
 use App\Exception\DictionaryParser\DictionaryFileNotFoundException;
 use App\Exception\DictionaryParser\ParsingPartNotFoundException;
+use App\Repository\WordRepository;
 use App\Service\DictionaryParser\TextParser\TextTypeParser;
+use App\Service\Flusher;
 use Psr\Log\LoggerInterface;
 
-use function array_merge;
 use function file_exists;
 use function fopen;
 
@@ -20,37 +21,49 @@ final class DictionaryParser
 
     private TextTypeParser $textTypeParser;
 
+    private WordRepository $wordRepository;
+
+    private Flusher $flusher;
+
     private LoggerInterface $logger;
 
-    public function __construct(WordsReader $wordsReader, TextTypeParser $textTypeParser, LoggerInterface $logger)
-    {
+    public function __construct(
+        WordsReader $wordsReader,
+        TextTypeParser $textTypeParser,
+        Flusher $flusher,
+        WordRepository $wordRepository,
+        LoggerInterface $logger
+    ) {
         $this->wordsReader    = $wordsReader;
         $this->textTypeParser = $textTypeParser;
+        $this->wordRepository = $wordRepository;
+        $this->flusher        = $flusher;
         $this->logger         = $logger;
     }
 
     /**
      * @throws DictionaryFileNotFoundException
-     * @return DictionaryWord[]
      */
-    public function parse(string $filePath, int $batchAmount): array
+    public function parse(string $filePath, int $batchAmount): void
     {
         if (!file_exists($filePath)) {
             throw DictionaryFileNotFoundException::byPath($filePath);
         }
 
         $fp = fopen($filePath, 'rb');
-
-        $parsed   = [];
-        $rawWords = $this->wordsReader->read($fp, $batchAmount);
-        foreach ($rawWords as $rawWord) {
-            try {
-                $parsed = array_merge($parsed, $this->textTypeParser->parse($rawWord));
-            } catch (ParsingPartNotFoundException $e) {
-                $this->logger->alert("Word did not parsed\n{$e}", $e->getTrace());
+        do {
+            $rawWords = $this->wordsReader->read($fp, $batchAmount);
+            foreach ($rawWords as $rawWord) {
+                try {
+                    $meanings = $this->textTypeParser->parse($rawWord);
+                    foreach ($meanings as $meaning) {
+                        $this->wordRepository->add(Word::createFromDto($meaning));
+                    }
+                } catch (ParsingPartNotFoundException $e) {
+                    $this->logger->alert("Word did not parsed\n{$e}", $e->getTrace());
+                }
             }
-        }
-
-        return $parsed;
+            $this->flusher->flush();
+        } while (\count($rawWords) > 0);
     }
 }
