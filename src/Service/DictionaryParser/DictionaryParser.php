@@ -60,7 +60,7 @@ final class DictionaryParser
                         $this->wordRepository->add(Word::createFromDto($meaning));
                     }
                 } catch (ParsingPartNotFoundException $e) {
-                    $this->logger->alert("Word did not parsed\n$e", $e->getTrace());
+                    $this->logger->alert("Word did not parsed\n{$e}", $e->getTrace());
                 }
             }
             $this->flusher->flush();
