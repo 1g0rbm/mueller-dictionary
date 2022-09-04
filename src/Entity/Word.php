@@ -34,10 +34,10 @@ final class Word
     public static function createFromDto(DictionaryWord $dto): self
     {
         $word = new self();
-        $word->setSource($dto->getSource());
-        $word->setPos($dto->getPosition());
-        $word->setTranscription($dto->getTranscription());
-        $word->setTranslations($dto->getTranslation());
+        $word->setSource($dto->getSource())
+            ->setPos($dto->getPosition())
+            ->setTranscription($dto->getTranscription())
+            ->setTranslations($dto->getTranslation());
 
         return $word;
     }

@@ -21,6 +21,8 @@ final class DictionaryParser
 
     private TextTypeParser $textTypeParser;
 
+    private DictionaryWordNormalizer $dictionaryWordNormalizer;
+
     private WordRepository $wordRepository;
 
     private Flusher $flusher;
@@ -30,15 +32,17 @@ final class DictionaryParser
     public function __construct(
         WordsReader $wordsReader,
         TextTypeParser $textTypeParser,
+        DictionaryWordNormalizer $dictionaryWordNormalizer,
         Flusher $flusher,
         WordRepository $wordRepository,
         LoggerInterface $logger
     ) {
-        $this->wordsReader    = $wordsReader;
-        $this->textTypeParser = $textTypeParser;
-        $this->wordRepository = $wordRepository;
-        $this->flusher        = $flusher;
-        $this->logger         = $logger;
+        $this->wordsReader              = $wordsReader;
+        $this->textTypeParser           = $textTypeParser;
+        $this->dictionaryWordNormalizer = $dictionaryWordNormalizer;
+        $this->wordRepository           = $wordRepository;
+        $this->flusher                  = $flusher;
+        $this->logger                   = $logger;
     }
 
     /**
@@ -57,7 +61,9 @@ final class DictionaryParser
                 try {
                     $meanings = $this->textTypeParser->parse($rawWord);
                     foreach ($meanings as $meaning) {
-                        $this->wordRepository->add(Word::createFromDto($meaning));
+                        $this->wordRepository->add(
+                            Word::createFromDto($this->dictionaryWordNormalizer->normalize($meaning))
+                        );
                     }
                 } catch (ParsingPartNotFoundException $e) {
                     $this->logger->alert("Word did not parsed\n{$e}", $e->getTrace());

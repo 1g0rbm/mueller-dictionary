@@ -78,7 +78,7 @@ final class TextTypeParser implements TextTypeParserInterface
 
                 $translations = $this->translationParser->parse($this->textReduce($pos, $partOfSpeech));
 
-                $result[] = new DictionaryWord($sourceWord, $transcription, $pos, $translations);
+                $result[] = new DictionaryWord($sourceWord, $pos, $transcription, $translations);
             }
         }
 

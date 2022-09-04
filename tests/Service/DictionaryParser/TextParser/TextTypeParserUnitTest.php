@@ -53,8 +53,8 @@ final class TextTypeParserUnitTest extends KernelTestCase
         $expected = [
             new DictionaryWord(
                 'annex',
-                "['Эneks]",
                 '_n.',
+                "['Эneks]",
                 [
                     'прибавление',
                     'приложение',
@@ -66,8 +66,8 @@ final class TextTypeParserUnitTest extends KernelTestCase
             ),
             new DictionaryWord(
                 'annex',
-                "[э'neks]",
                 '_v.',
+                "[э'neks]",
                 [
                     'присоединять',
                     'аннексировать',
@@ -90,8 +90,8 @@ final class TextTypeParserUnitTest extends KernelTestCase
         $expectedWords = [
             new DictionaryWord(
                 'periodical',
-                "[,pIэrI'OdIkэl]",
                 '_a.',
+                "[,pIэrI'OdIkэl]",
                 [
                     'периодический',
                     'появляющийся через определённые промежутки времени',
@@ -100,8 +100,8 @@ final class TextTypeParserUnitTest extends KernelTestCase
             ),
             new DictionaryWord(
                 'periodical',
-                "[,pIэrI'OdIkэl]",
                 '_n.',
+                "[,pIэrI'OdIkэl]",
                 [
                     'периодическое издание',
                     'журнал',
@@ -122,7 +122,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
     {
         $sourceText = "beehive ['bi:haIv] _n. улей";
 
-        $expectedWord = [new DictionaryWord('beehive', "['bi:haIv]", '_n.', ['улей'])];
+        $expectedWord = [new DictionaryWord('beehive', '_n.', "['bi:haIv]", ['улей'])];
 
         self::assertEquals($expectedWord, $this->service->parse($sourceText));
     }
