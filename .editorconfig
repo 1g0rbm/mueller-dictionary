@@ -1,0 +1,28 @@
+root = true
+
+# Глобальные настройки, которые будут записаны для всех файлов.
+[*]
+charset = utf-8
+# На Unix системах используется lf для перевода строки.
+# Это также требование стандарта PSR.
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+# Можно задать индивидуальные настройки как для типов файлов,
+# так и отдельных файлов по имени.
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,vue,js,html}]
+indent_size = 2
+
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
+
+[lib/**.js]
+indent_style = space
+indent_size = 2

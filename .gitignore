@@ -20,4 +20,5 @@
 
 ###> local environment ###
 .idea
+.vscode
 ###< local environment ###

@@ -38,6 +38,16 @@ services:
             - postgres:/var/lib/postgresql/data
         ports:
             - "54321:5432"
+    adminer:
+        image: adminer
+        depends_on:
+            - postgres
+        environment:
+            ADMINER_DEFAULT_DB_DRIVER: pgsql
+            ADMINER_DEFAULT_DB_HOST: postgres
+            ADMINER_DEFAULT_DB_NAME: muellerdict
+        ports:
+            - 8085:8080
 
 volumes:
     composer:
