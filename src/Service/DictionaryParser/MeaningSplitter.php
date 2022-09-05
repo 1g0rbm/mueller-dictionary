@@ -16,13 +16,16 @@ final class MeaningSplitter
     public function split(string $string): array
     {
         // :|
-        $regex = '/^I | II | III | IV | V | VI | VII | VIII | IX | X /';
+        $regex = '/^I \[| II \[| III \[| IV \[| V \[| VI \[| VII \[| VIII \[| IX \[| X \[/';
 
         $res = preg_split($regex, $string);
         if (!$res) {
             return [$string];
         }
 
-        return array_values(array_filter($res));
+        return array_map(
+            static fn (string $line): string => $line[0] === '[' ? $line : "[{$line}",
+            array_values(array_filter($res))
+        );
     }
 }

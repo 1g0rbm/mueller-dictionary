@@ -31,8 +31,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
         $transcriptionFinder   = new TranscriptionFinder();
         $translationParser     = new TranslationParser();
         $romanNumsSplitter     = new MeaningSplitter();
-        $posFinder             = new PartOfSpeechFinder();
-        $arabicDotNumsSplitter = new PartOfSpeechSplitter($posFinder);
+        $arabicDotNumsSplitter = new PartOfSpeechSplitter();
 
         $this->service = new TextTypeParser(
             $sourceFinder,
@@ -42,6 +41,77 @@ final class TextTypeParserUnitTest extends KernelTestCase
             $romanNumsSplitter,
             $arabicDotNumsSplitter
         );
+    }
+
+    public function testMeaningOneTranscriptionReturnValid(): void
+    {
+        $source = "competence ['kOmpItэns] _n. 1) способность; умение; I doubt his competence for such work (или to do such work) я сомневаюсь, что у него есть данные для этой работы 2) компетентность 3) достаток, хорошее материальное положение 4) _юр. компетенция, правомочность";
+        $expected = [
+            new DictionaryWord(
+                'competence',
+                '_n.',
+                "['kOmpItэns]",
+                [
+                    'способность',
+                    'умение',
+                    'I doubt his competence for such work (или to do such work) я сомневаюсь',
+                    'что у него есть данные для этой работы',
+                    'компетентность',
+                    'достаток',
+                    'хорошее материальное положение',
+                    '_юр. компетенция',
+                    'правомочность',
+                ]
+            ),
+        ];
+
+        self::assertEquals($expected, $this->service->parse($source));
+    }
+
+    public function testMeaningTranscriptionReturnValid(): void
+    {
+        $source = "flagging I ['flЭgIN] 1. _pres-p. от flag III, 2 2. _n. устланная плитами мостовая; пол из плитняка II ['flЭgIN] 1. _pres-p. от flag IV 2. _a. слабеющий, никнущий III ['flЭgIN] _pres-p. от flag I, 2";
+        $expected = [
+            new DictionaryWord(
+                'flagging',
+                '_n.',
+                "['flЭgIN]",
+                [
+                    'устланная плитами мостовая',
+                    'пол из плитняка',
+                ]
+            ),
+            new DictionaryWord(
+                'flagging',
+                '_a.',
+                "['flЭgIN]",
+                [
+                    'слабеющий',
+                    'никнущий',
+                ]
+            ),
+        ];
+
+        self::assertEquals($expected, $this->service->parse($source));
+    }
+
+    public function testMeaningsSkipInvalidValuesReturnValid(): void
+    {
+        $source = "goggled ['gOgld] 1. _p-p. от goggle 3 2. _a. носящий защитные очки, в защитных очках";
+
+        $expected = [
+            new DictionaryWord(
+                'goggled',
+                '_a.',
+                "['gOgld]",
+                [
+                    'носящий защитные очки',
+                    'в защитных очках',
+                ]
+            ),
+        ];
+
+        self::assertEquals($expected, $this->service->parse($source));
     }
 
     public function testMeaningsThatStartsWithIReturnValid(): void

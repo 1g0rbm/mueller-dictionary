@@ -21,16 +21,21 @@ final class SourceWordFinder
 
     private static function getSourceWordEndPosition(string $string): ?int
     {
-        $pos = strpos($string, ' I ');
-        if ($pos) {
-            return $pos;
+        $posI       = strpos($string, ' I ');
+        $posBracket = strpos($string, ' [');
+
+        if ($posI === false && $posBracket === false) {
+            return null;
         }
 
-        $pos = strpos($string, ' [');
-        if ($pos) {
-            return $pos;
+        if ($posBracket === false) {
+            return $posI;
         }
 
-        return null;
+        if ($posI === false) {
+            return $posBracket;
+        }
+
+        return $posI < $posBracket ? $posI : $posBracket;
     }
 }

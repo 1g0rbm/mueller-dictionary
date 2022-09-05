@@ -61,6 +61,7 @@ final class TextTypeParser implements TextTypeParserInterface
         $text = $this->textReduce($sourceWord, $text);
 
         $meanings = $this->meaningSplitter->split($text);
+
         foreach ($meanings as $meaning) {
             $transcription = $this->transcriptionFinder->find($meaning);
             if ($transcription === null) {
@@ -69,12 +70,17 @@ final class TextTypeParser implements TextTypeParserInterface
 
             $meaning = $this->textReduce($transcription, $meaning);
 
+            $pos = $this->partOfSpeechFinder->count($meaning) === 1 ? $this->partOfSpeechFinder->find($meaning) : null;
+            if ($pos) {
+                $meaning = $this->textReduce($pos, $meaning);
+            }
+
             $partsOfSpeech = $this->partOfSpeechSplitter->split($meaning);
 
             foreach ($partsOfSpeech as $partOfSpeech) {
-                $pos = $this->partOfSpeechFinder->find($partOfSpeech);
+                $pos = $this->partOfSpeechFinder->find($partOfSpeech) ?? $pos;
                 if ($pos === null) {
-                    throw ParsingPartNotFoundException::pos($partOfSpeech);
+                    continue;
                 }
 
                 $translations = $this->translationParser->parse($this->textReduce($pos, $partOfSpeech));
