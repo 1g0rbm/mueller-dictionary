@@ -11,19 +11,26 @@ final class SourceWordFinder
 {
     public function find(string $string): ?string
     {
-        for ($i = 0; $i < \strlen($string); ++$i) {
-            if (self::isEndOfSourceWord($string[$i])) {
-                return trim(mb_substr($string, 0, $i));
-            }
+        $endOfSourceWordPosition = self::getSourceWordEndPosition($string);
+        if ($endOfSourceWordPosition === null) {
+            return null;
+        }
+
+        return trim(mb_substr($string, 0, $endOfSourceWordPosition));
+    }
+
+    private static function getSourceWordEndPosition(string $string): ?int
+    {
+        $pos = strpos($string, ' I ');
+        if ($pos) {
+            return $pos;
+        }
+
+        $pos = strpos($string, ' [');
+        if ($pos) {
+            return $pos;
         }
 
         return null;
-    }
-
-    private static function isEndOfSourceWord(string $char): bool
-    {
-        $possibleStartChars = ['[', 'I'];
-
-        return \in_array($char, $possibleStartChars, true);
     }
 }

@@ -70,6 +70,7 @@ final class TextTypeParser implements TextTypeParserInterface
             $meaning = $this->textReduce($transcription, $meaning);
 
             $partsOfSpeech = $this->partOfSpeechSplitter->split($meaning);
+
             foreach ($partsOfSpeech as $partOfSpeech) {
                 $pos = $this->partOfSpeechFinder->find($partOfSpeech);
                 if ($pos === null) {

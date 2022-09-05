@@ -31,7 +31,8 @@ final class TextTypeParserUnitTest extends KernelTestCase
         $transcriptionFinder   = new TranscriptionFinder();
         $translationParser     = new TranslationParser();
         $romanNumsSplitter     = new MeaningSplitter();
-        $arabicDotNumsSplitter = new PartOfSpeechSplitter();
+        $posFinder             = new PartOfSpeechFinder();
+        $arabicDotNumsSplitter = new PartOfSpeechSplitter($posFinder);
 
         $this->service = new TextTypeParser(
             $sourceFinder,
@@ -41,6 +42,61 @@ final class TextTypeParserUnitTest extends KernelTestCase
             $romanNumsSplitter,
             $arabicDotNumsSplitter
         );
+    }
+
+    public function testMeaningsThatStartsWithIReturnValid(): void
+    {
+        $source = "Internet ['Intэ:net] _n. _комп. Интернет, международная компьютерная сеть";
+
+        $expected = [
+            new DictionaryWord(
+                'Internet',
+                '_n.',
+                "['Intэ:net]",
+                [
+                    '_комп. Интернет',
+                    'международная компьютерная сеть',
+                ]
+            ),
+        ];
+
+        self::assertEquals($expected, $this->service->parse($source));
+    }
+
+    public function testMeaningsWithSeveralMeaningsAndSynonimsReturnValid(): void
+    {
+        $sourceString = "several ['sevrэl] _a. 1. 1) несколько; several people несколько человек 2) отдельный, особый, свой; they went their several ways каждый из них пошёл своей дорогой; each has his several ideal у каждого свой идеал; collective and several responsibility солидарная и личная ответственность; the several members of the Board отдельные члены правления 2. как сущ. несколько, некоторое количество; several of you некоторые из вас";
+
+        $expected = [
+            new DictionaryWord(
+                'several',
+                '_a.',
+                "['sevrэl]",
+                [
+                    'несколько',
+                    'several people несколько человек',
+                    'отдельный',
+                    'особый',
+                    'свой',
+                    'they went their several ways каждый из них пошёл своей дорогой',
+                    'each has his several ideal у каждого свой идеал',
+                    'collective and several responsibility солидарная и личная ответственность',
+                    'the several members of the Board отдельные члены правления',
+                ]
+            ),
+            new DictionaryWord(
+                'several',
+                '_a.',
+                "['sevrэl]",
+                [
+                    'как сущ. несколько',
+                    'некоторое количество',
+                    'several of you некоторые из вас',
+                ]
+            ),
+        ];
+
+        self::assertEquals($expected, $this->service->parse($sourceString));
     }
 
     /**
