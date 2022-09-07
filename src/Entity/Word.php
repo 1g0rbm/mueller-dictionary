@@ -18,7 +18,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     collectionOperations: ['get' => ['normalization_context' => ['groups' => 'words:list']]],
     itemOperations: ['get' => ['normalization_context' => ['groups' => 'words:item']]],
-    paginationEnabled: false
+    attributes: [
+        'pagination_items_per_page' => 10
+    ]
 )]
 #[ApiFilter(
     SearchFilter::class,
