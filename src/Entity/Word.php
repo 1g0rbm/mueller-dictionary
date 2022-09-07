@@ -4,31 +4,49 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\DictionaryParser\DictionaryWord;
 use App\Repository\WordRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /** @psalm-suppress MissingConstructor */
 #[ORM\Table(name: 'words')]
 #[ORM\Entity(repositoryClass: WordRepository::class)]
+#[ApiResource(
+    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'words:list']]],
+    itemOperations: ['get' => ['normalization_context' => ['groups' => 'words:item']]],
+    paginationEnabled: false
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: ['source' => 'start']
+)]
 final class Word
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['words:list', 'words:item'])]
     private int $id;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['words:list', 'words:item'])]
     private string $source;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['words:list', 'words:item'])]
     private string $pos;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['words:list', 'words:item'])]
     private string $transcription;
 
     /** @var string[] */
     #[ORM\Column(type: 'json', options: ['jsonb' => true])]
+    #[Groups(['words:list', 'words:item'])]
     private array $translations;
 
     public static function createFromDto(DictionaryWord $dto): self
