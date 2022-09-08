@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @internal
- * @psalm-suppress MissingConstructor
+ * @group unit
  */
 final class SourceWordFinderUnitTest extends KernelTestCase
 {

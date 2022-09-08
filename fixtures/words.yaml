@@ -1,0 +1,48 @@
+App\Entity\Word:
+    word1:
+        source: abecedarian
+        pos: adjective
+        transcription: '\[,eɪbi:si:ˈdɛərɪən]'
+        translations:
+            - "расположенный в алфавитном порядке"
+            - "азбучный"
+            - "элементарный"
+    word2:
+        source: beside
+        pos: preposition
+        transcription: '\[bɪˈsaɪd]'
+        translations:
+            - "рядом с"
+            - "около"
+            - "близ"
+            - "beside the river у реки"
+            - "по сравнению с"
+            - "she seems dull beside her sister по сравнению со своей сестрой она кажется неинтересной"
+            - "мимо"
+            - "beside the mark"
+            - "beside the question мимо цели"
+            - "некстати"
+            - "не по существу"
+            - "beside the purpose нецелесообразно"
+            - "_редк. кроме, помимо *) beside oneself вне себя"
+    word3:
+        source: betrayer
+        pos: noun
+        transcription: '\[bɪˈtreɪə]'
+        translations:
+            - "предатель"
+            - "изменник"
+    word4:
+        source: cage
+        pos: verb
+        transcription: '\[keɪʤ]'
+        translations:
+            - "сажать в клетку"
+            - "_разг. заключать в тюрьму"
+    word5:
+        source: debit
+        pos: verb
+        transcription: '\[ˈdebɪt]'
+        translations:
+            - "дебетовать"
+            - "вносить в дебет"

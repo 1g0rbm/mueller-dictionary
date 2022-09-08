@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
+ * @group unit
  */
 final class MeaningSplitterUnitTest extends TestCase
 {

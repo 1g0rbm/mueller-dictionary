@@ -8,9 +8,8 @@ use App\Service\DictionaryParser\PartOfSpeechFinder;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * @psalm-suppress MissingConstructor
- *
  * @internal
+ * @group unit
  */
 final class PartOfSpeechFinderUnitTest extends KernelTestCase
 {

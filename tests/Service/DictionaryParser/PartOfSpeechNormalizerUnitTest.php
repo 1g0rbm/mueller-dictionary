@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @internal
+ * @group unit
  */
 final class PartOfSpeechNormalizerUnitTest extends KernelTestCase
 {
