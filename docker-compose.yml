@@ -17,6 +17,10 @@ services:
             dockerfile: ./dev/php-cli.dockerfile
         environment:
             APP_DEBUG: 1
+            XDEBUG_MODE: debug
+            XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
+        extra_hosts:
+          - "host.docker.internal:host-gateway"
         volumes:
             - ./:/app
             - ${HOME}/.composer:/.composer
@@ -26,6 +30,10 @@ services:
             dockerfile: ./dev/php-fpm.dockerfile
         environment:
             APP_DEBUG: 1
+            XDEBUG_MODE: debug
+            XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
+        extra_hosts:
+          - "host.docker.internal:host-gateway"
         volumes:
             - ./:/app
     postgres:
@@ -34,6 +42,8 @@ services:
             POSTGRES_USER: muellerdict
             POSTGRES_PASSWORD: password
             POSTGRES_DB: muellerdict
+            XDEBUG_MODE: debug
+            XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
         volumes:
             - postgres:/var/lib/postgresql/data
         ports:

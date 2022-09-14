@@ -1,7 +1,7 @@
 init: docker-down docker-up composer-install
 
 docker-up:
-	docker-compose --env-file .env.local up -d
+	docker-compose --env-file .env.local up --build -d
 
 docker-down:
 	docker-compose down --remove-orphans
