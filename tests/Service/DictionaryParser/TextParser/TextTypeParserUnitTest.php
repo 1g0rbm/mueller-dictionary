@@ -53,13 +53,10 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 [
                     'способность',
                     'умение',
-                    'I doubt his competence for such work (или to do such work) я сомневаюсь',
-                    'что у него есть данные для этой работы',
+                    'I doubt his competence for such work (или to do such work) я сомневаюсь, что у него есть данные для этой работы',
                     'компетентность',
-                    'достаток',
-                    'хорошее материальное положение',
-                    '_юр. компетенция',
-                    'правомочность',
+                    'достаток, хорошее материальное положение',
+                    '_юр. компетенция, правомочность',
                 ]
             ),
         ];
@@ -85,8 +82,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 '_a.',
                 "['flЭgIN]",
                 [
-                    'слабеющий',
-                    'никнущий',
+                    'слабеющий, никнущий',
                 ]
             ),
         ];
@@ -104,8 +100,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 '_a.',
                 "['gOgld]",
                 [
-                    'носящий защитные очки',
-                    'в защитных очках',
+                    'носящий защитные очки, в защитных очках',
                 ]
             ),
         ];
@@ -123,8 +118,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 '_n.',
                 "['Intэ:net]",
                 [
-                    '_комп. Интернет',
-                    'международная компьютерная сеть',
+                    '_комп. Интернет, международная компьютерная сеть',
                 ]
             ),
         ];
@@ -144,9 +138,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 [
                     'несколько',
                     'several people несколько человек',
-                    'отдельный',
-                    'особый',
-                    'свой',
+                    'отдельный, особый, свой',
                     'they went their several ways каждый из них пошёл своей дорогой',
                     'each has his several ideal у каждого свой идеал',
                     'collective and several responsibility солидарная и личная ответственность',
@@ -158,8 +150,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 '_a.',
                 "['sevrэl]",
                 [
-                    'как сущ. несколько',
-                    'некоторое количество',
+                    'как сущ. несколько, некоторое количество',
                     'several of you некоторые из вас',
                 ]
             ),
@@ -181,12 +172,8 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 '_n.',
                 "['Эneks]",
                 [
-                    'прибавление',
-                    'приложение',
-                    'дополнение',
-                    'пристройка',
-                    'крыло',
-                    'флигель',
+                    'прибавление, приложение, дополнение',
+                    'пристройка, крыло, флигель',
                 ]
             ),
             new DictionaryWord(
@@ -228,8 +215,7 @@ final class TextTypeParserUnitTest extends KernelTestCase
                 '_n.',
                 "[,pIэrI'OdIkэl]",
                 [
-                    'периодическое издание',
-                    'журнал',
+                    'периодическое издание, журнал',
                 ]
             ),
         ];

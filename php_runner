@@ -1,2 +1,13 @@
-#!/bin/bash
-docker-compose run --rm php-cli php $@
+#!/bin/sh
+
+docker run \
+    --network=host \
+    --rm \
+    -e HOME="$HOME" \
+    -u $(id -u):$(id -g) \
+    -v "$HOME":"$HOME" \
+    -w "$PWD" \
+    php:7.4-cli \
+    php "$@"
+
+exit $?

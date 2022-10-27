@@ -24,7 +24,7 @@ final class SimpleParserUnitTest extends KernelTestCase
     {
         $testString = 'нелюбовь, неприязнь, нерасположение, антипатия (for, of, to)';
 
-        $expected = ['нелюбовь', 'неприязнь', 'нерасположение', 'антипатия (for, of, to)'];
+        $expected = ['нелюбовь, неприязнь, нерасположение, антипатия (for, of, to)'];
 
         self::assertEquals($expected, $this->service->parse($testString));
     }
@@ -33,7 +33,7 @@ final class SimpleParserUnitTest extends KernelTestCase
     {
         $testString = 'нелюбовь, неприязнь; нерасположение; антипатия (for, of, to)';
 
-        $expected = ['нелюбовь', 'неприязнь', 'нерасположение', 'антипатия (for, of, to)'];
+        $expected = ['нелюбовь, неприязнь', 'нерасположение', 'антипатия (for, of, to)'];
         self::assertEquals($expected, $this->service->parse($testString));
     }
 
@@ -41,7 +41,7 @@ final class SimpleParserUnitTest extends KernelTestCase
     {
         $testString = '1) периодичность, частота 2) _физиол. менструации';
 
-        $expected = ['периодичность', 'частота', '_физиол. менструации'];
+        $expected = ['периодичность, частота', '_физиол. менструации'];
 
         self::assertEquals($expected, $this->service->parse($testString));
     }

@@ -37,7 +37,7 @@ final class TranslationParser implements TranslationParserInterface
         return array_map(
             static fn (string $word): string => trim($word),
             preg_split(
-                '/; (?=(([^"]*"){2})*[^"]*$)(?![^(]*\))|, (?=(([^"]*"){2})*[^"]*$)(?![^(]*\))/',
+                '/; (?=(([^"]*"){2})*[^"]*$)(?![^(]*\))/',
                 $translation
             )
         );
